@@ -1,46 +1,59 @@
 {% set name = "protobuf" %}
-{% set version = "3.4.0" %}
-{% set sha256 = "cd55ee08e64a86cf12aaadd4672961813f592c194ed0c9ad94da0ec75acf219f" %}
+{% set version = "3.4.1" %}
+{% set sha256 = "8e0236242106e680b4f9f576cc44b8cd711e948b20a9fc07769b0a20ceab9cc4" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/google/protobuf/archive/v{{ version }}/{{ name }}-v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  - url: https://github.com/google/protobuf/archive/v{{ version }}/{{ name }}-v{{ version }}.tar.gz
+    sha256: {{ sha256 }}
+    patches: 
+      - 3754.patch
+        #- 3494.patch
+  - url: https://github.com/google/googlemock/archive/release-1.7.0.zip
+    fn: googlemock-release-1.7.0.zip
+    folder: gmock
+  - url: https://github.com/google/googletest/archive/release-1.7.0.zip
+    fn: googletest-release-1.7.0.zip
+    folder: gmock/gtest
 
 build:
   number: 0
   skip: True  # [win and py27]
   features:
-    - vc9  # [win and py27]
-    - vc10  # [win and py34]
-    - vc14  # [win and (py35 or py36)]
+    - vc{{ vc }}   # [win]
+  run_exports:
+    # breaks backwards compatibility and new SONAME each minor release
+    # https://abi-laboratory.pro/tracker/timeline/protobuf/
+    - {{ pin_subpackage('protobuf', max_pin='x.x') }}
 
 requirements:
   build:
-    - git                # [win]
-    - cmake              # [win]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - autoconf           # [unix]
     - automake           # [unix]
     - libtool            # [unix]
     - pkg-config         # [unix]
-    - zlib 1.2.8
-    - python
-    - setuptools
-    - six
-    - ordereddict        # [py26]
-    - unittest2          # [py26]
     - unzip              # [unix]
-  run:
-    - zlib 1.2.8
+    - cmake              # [win]
+    - git                # [win]
+  host:
+    - ordereddict        # [py26]
     - python
     - setuptools
     - six
-    - ordereddict        # [py26]
     - unittest2          # [py26]
+    - zlib
+  run:
+    - ordereddict        # [py26]
+    - python
+    - setuptools
+    - six
+    - unittest2          # [py26]
+    - zlib
 
 test:
   commands:

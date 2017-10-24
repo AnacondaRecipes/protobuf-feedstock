@@ -1,0 +1,28 @@
+From a23e198ccaf53fededaa09b5988afece897fc3ac Mon Sep 17 00:00:00 2001
+From: drivehappy <drivehappy@gmail.com>
+Date: Tue, 15 Aug 2017 11:41:46 -0700
+Subject: [PATCH] Fixing warning under Clang 6.x (-Wexpansion-to-defined) where
+ the macro expansion producing 'defined' was warning on undefined behavior.
+
+---
+ src/google/protobuf/stubs/port.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/google/protobuf/stubs/port.h b/src/google/protobuf/stubs/port.h
+index 7879aed490..83eaf31e93 100644
+--- a/src/google/protobuf/stubs/port.h
++++ b/src/google/protobuf/stubs/port.h
+@@ -256,8 +256,11 @@ static const uint64 kuint64max = GOOGLE_ULONGLONG(0xFFFFFFFFFFFFFFFF);
+ # define GOOGLE_PROTOBUF_USE_UNALIGNED 0
+ #else
+ // x86 and x86-64 can perform unaligned loads/stores directly.
+-# define GOOGLE_PROTOBUF_USE_UNALIGNED defined(_M_X64) || \
+-     defined(__x86_64__) || defined(_M_IX86) || defined(__i386__)
++# if defined(_M_X64) || defined(__x86_64__) || defined(_M_IX86) || defined(__i386__)
++#  define GOOGLE_PROTOBUF_USE_UNALIGNED 1
++# else
++#  define GOOGLE_PROTOBUF_USE_UNALIGNED 0
++# endif
+ #endif
+ 
+ #if GOOGLE_PROTOBUF_USE_UNALIGNED
