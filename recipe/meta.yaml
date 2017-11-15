@@ -1,56 +1,40 @@
 {% set name = "protobuf" %}
-{% set version = "3.4.0" %}
-{% set sha256 = "cd55ee08e64a86cf12aaadd4672961813f592c194ed0c9ad94da0ec75acf219f" %}
+{% set version = "3.4.1" %}
+{% set sha256 = "8e0236242106e680b4f9f576cc44b8cd711e948b20a9fc07769b0a20ceab9cc4" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://github.com/google/protobuf/archive/v{{ version }}/{{ name }}-v{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  #git_url: https://github.com/google/protobuf.git
+  #git_tag: v3.4.1
 
 build:
   number: 0
-  skip: True  # [win and py27]
-  features:
-    - vc9  # [win and py27]
-    - vc10  # [win and py34]
-    - vc14  # [win and (py35 or py36)]
+  # protobuf does not support Visual C++ 2008 well due to poor c++11 support
+  # For the time being skip VS2008 builds, fix if these are needed
+  skip: True  # [win and vc<10]
 
 requirements:
   build:
-    - git                # [win]
-    - cmake              # [win]
-    - autoconf           # [unix]
-    - automake           # [unix]
-    - libtool            # [unix]
-    - pkg-config         # [unix]
-    - zlib 1.2.8
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
     - python
     - setuptools
+    - libprotobuf {{ version }}
     - six
-    - ordereddict        # [py26]
-    - unittest2          # [py26]
-    - unzip              # [unix]
   run:
-    - zlib 1.2.8
     - python
-    - setuptools
     - six
-    - ordereddict        # [py26]
-    - unittest2          # [py26]
 
 test:
   commands:
     - protoc --help
-    - test -f ${PREFIX}/lib/libprotobuf.a                           # [unix]
-    - test -f ${PREFIX}/lib/libprotobuf.dylib                       # [osx]
-    - test -f ${PREFIX}/lib/libprotobuf.so                          # [linux]
-    - if not exist %PREFIX%\\Library\\lib\\libprotobuf.lib exit 1   # [win]
-    - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'cpp'"  # [unix]
-    - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'python'"  # [win]
+    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
   imports:
     - google
     - google.protobuf
@@ -59,14 +43,12 @@ test:
 
 about:
   home: https://developers.google.com/protocol-buffers/
-  license: BSD 3-Clause
+  license: New BSD License
+  license_family: BSD
   license_file: LICENSE
-  summary: "Protocol Buffers - Google's data interchange format."
-
-extra:
-  recipe-maintainers:
-    - dopplershift
-    - jakirkham
-    - jjhelmus
-    - ocefpaf
-    - hajapy
+  summary: Protocol Buffers - Google's data interchange format
+  description: |
+    Protocol buffers are Google's language-neutral, platform-neutral, extensible
+    mechanism for serializing structured data,think XML, but smaller, faster, and simpler.
+  doc_url: https://developers.google.com/protocol-buffers/docs/tutorials
+  doc_source_url: https://github.com/google/protobuf/blob/master/README.md
