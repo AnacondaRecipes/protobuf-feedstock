@@ -27,7 +27,6 @@ requirements:
     - zlib 1.2.11
     - python
     - setuptools
-    - libprotobuf {{ version }}
     - six
     - ordereddict                # [py26]
     - unittest2                  # [py26]
