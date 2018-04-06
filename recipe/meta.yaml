@@ -24,7 +24,6 @@ requirements:
     - unittest2                  # [py26]
   run:
     - python
-    - setuptools
     - six
     - ordereddict                # [py26]
     - unittest2                  # [py26]
