@@ -13,7 +13,9 @@ build:
 
 requirements:
   build:
-    - toolchain
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
     - zlib 1.2.11
     - python
     - setuptools
