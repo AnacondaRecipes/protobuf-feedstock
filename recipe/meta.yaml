@@ -16,7 +16,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - zlib 1.2.11
     - python
     - setuptools
     - libprotobuf {{ version }}
@@ -24,7 +23,6 @@ requirements:
     - ordereddict                # [py26]
     - unittest2                  # [py26]
   run:
-    - zlib 1.2.11
     - python
     - setuptools
     - six
