@@ -15,4 +15,4 @@ if [[ ${PY_VER} == 3.7 ]]; then
   export CFLAGS="${CFLAGS} -fpermissive"
 fi
 
-python setup.py install --cpp_implementation --single-version-externally-managed --record record.txt
+${PYTHON} setup.py install --cpp_implementation --single-version-externally-managed --record record.txt

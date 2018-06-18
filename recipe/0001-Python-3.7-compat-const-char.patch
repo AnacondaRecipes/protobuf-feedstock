@@ -1,0 +1,11 @@
+--- work.orig/python/google/protobuf/pyext/descriptor.cc	2018-06-18 03:29:29.000000000 -0700
++++ work/python/google/protobuf/pyext/descriptor.cc	2018-06-18 03:33:24.000000000 -0700
+@@ -56,7 +56,7 @@
+   #endif
+   #define PyString_AsStringAndSize(ob, charpp, sizep) \
+     (PyUnicode_Check(ob)? \
+-       ((*(charpp) = PyUnicode_AsUTF8AndSize(ob, (sizep))) == NULL? -1: 0): \
++       ((*(charpp) = (char*)PyUnicode_AsUTF8AndSize(ob, (sizep))) == NULL? -1: 0): \
+        PyBytes_AsStringAndSize(ob, (charpp), (sizep)))
+ #endif
+ 
