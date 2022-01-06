@@ -1,4 +1,4 @@
-{% set version = "3.17.2" %}
+{% set version = "3.19.1" %}
 
 package:
   name: protobuf
@@ -6,10 +6,13 @@ package:
 
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
-  sha256: 36f81e03a0702f8f935fffd5a486dac1c0fc6d4bae1cd02c7a32448ad6e63bcb
+  sha256: 87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422
 
 build:
   number: 0
+  skip: True  # [py<35 or win32]
+  missing_dso_whitelist:  # [s390x]
+    - $RPATH/ld64.so.1    # [s390x]
 
 requirements:
   build:
@@ -21,15 +24,15 @@ requirements:
     - python
     - pip
     - libprotobuf {{ version }}
-    - six
   run:
     - python
-    - setuptools
     - libprotobuf {{ version }}
-    - six
 
 test:
+  requires:
+    - pip
   commands:
+    - pip check
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'cpp'"  # [unix and python_impl != "pypy"]
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'python'"  # [win or (unix and python_impl == "pypy")]
   imports:
@@ -49,6 +52,7 @@ about:
   description: |
     Protocol buffers are Google's language-neutral, platform-neutral, extensible
     mechanism for serializing structured data,think XML, but smaller, faster, and simpler.
+  dev_url: https://github.com/protocolbuffers/protobuf
   doc_url: https://developers.google.com/protocol-buffers/docs/tutorials
   doc_source_url: https://github.com/protocolbuffers/protobuf/blob/master/README.md
 
