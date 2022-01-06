@@ -10,6 +10,7 @@ source:
 
 build:
   number: 0
+  skip: True  # [py<35 or win32]
   missing_dso_whitelist:  # [s390x]
     - $RPATH/ld64.so.1    # [s390x]
 
@@ -23,15 +24,15 @@ requirements:
     - python
     - pip
     - libprotobuf {{ version }}
-    - six
   run:
     - python
-    - setuptools
     - libprotobuf {{ version }}
-    - six
 
 test:
+  requires:
+    - pip
   commands:
+    - pip check
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'cpp'"  # [unix and python_impl != "pypy"]
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'python'"  # [win or (unix and python_impl == "pypy")]
   imports:
