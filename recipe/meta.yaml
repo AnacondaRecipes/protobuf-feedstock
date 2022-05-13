@@ -1,4 +1,4 @@
-{% set version = "3.19.1" %}
+{% set version = "3.20.1" %}
 
 package:
   name: protobuf
@@ -6,20 +6,18 @@ package:
 
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
-  sha256: 87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422
+  sha256: 8b28fdd45bab62d15db232ec404248901842e5340299a57765e48abe8a80d930
 
 build:
   number: 0
-  skip: True  # [py<35 or win32]
+  skip: True  # [win32]
   missing_dso_whitelist:  # [s390x]
     - $RPATH/ld64.so.1    # [s390x]
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - libprotobuf {{ version }}              # [build_platform != target_platform]
   host:
     - python
     - pip
