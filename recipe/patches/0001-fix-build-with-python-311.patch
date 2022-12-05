@@ -8,7 +8,7 @@ Subject: [PATCH] Fix build with Python 3.11
 The PyFrameObject structure members have been removed from the public C API.
 
 diff --git a/python/google/protobuf/pyext/descriptor.cc b/python/google/protobuf/pyext/descriptor.cc
-index 162531226..eadd088f7 100644
+index 162531226..e93ec4809 100644
 --- a/python/google/protobuf/pyext/descriptor.cc
 +++ b/python/google/protobuf/pyext/descriptor.cc
 @@ -58,6 +58,37 @@
@@ -49,7 +49,7 @@ index 162531226..eadd088f7 100644
  namespace google {
  namespace protobuf {
  namespace python {
-@@ -96,48 +127,64 @@ bool _CalledFromGeneratedFile(int stacklevel) {
+@@ -96,48 +127,66 @@ bool _CalledFromGeneratedFile(int stacklevel) {
    // This check is not critical and is somewhat difficult to implement correctly
    // in PyPy.
    PyFrameObject* frame = PyEval_GetFrame();
@@ -109,7 +109,10 @@ index 162531226..eadd088f7 100644
 +    goto exit;
    }
  
-   if (frame->f_globals != frame->f_locals) {
+-  if (frame->f_globals != frame->f_locals) {
++  frame_globals = PyFrame_GetGlobals(frame);
++  frame_locals = PyFrame_GetLocals(frame);
++  if (frame_globals != frame_locals) {
      // Not at global module scope
 -    return false;
 +    goto exit;
