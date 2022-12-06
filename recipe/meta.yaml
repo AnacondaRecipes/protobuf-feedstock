@@ -7,9 +7,12 @@ package:
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
   sha256: 8b28fdd45bab62d15db232ec404248901842e5340299a57765e48abe8a80d930
+  patches:  # [py==311]
+    # see https://github.com/protocolbuffers/protobuf/pull/10403
+    - patches/0001-fix-build-with-python-311.patch  # [py==311]
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win32]
   missing_dso_whitelist:  # [s390x]
     - $RPATH/ld64.so.1    # [s390x]
@@ -18,6 +21,8 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - patch     # [(not win) and (py==311)]
+    - m2-patch  # [win and (py==311)]
   host:
     - python
     - pip
