@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
-  sha256: 9c0fd39c7a08dff543c643f0f4baf081988129a411b977a07c46221793605638
+  sha256: a4d420a7b727a183475641c2b372389395101bc06aa00525720039fb3a9d8389
   patches:  # [py==311]
     # see https://github.com/protocolbuffers/protobuf/pull/10403
     - patches/0001-fix-build-with-python-311.patch  # [py==311]
