@@ -12,7 +12,7 @@ source:
     - patches/0001-fix-build-with-python-311.patch  # [py==311]
 
 build:
-  number: 1
+  number: 0
   skip: True  # [win32]
   missing_dso_whitelist:  # [s390x]
     - $RPATH/ld64.so.1    # [s390x]
