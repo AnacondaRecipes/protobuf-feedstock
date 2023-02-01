@@ -1,4 +1,4 @@
-{% set version = "3.19.1" %}
+{% set version = "3.19.6" %}
 
 package:
   name: protobuf
@@ -6,12 +6,11 @@ package:
 
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
-  sha256: 87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422
+  sha256: 9a301cf94a8ddcb380b901e7aac852780b826595075577bb967004050c835056
 
 build:
   number: 0
-  # trigger 1
-  skip: True  # [py<35 or win32]
+  skip: True  # [py<35]
   missing_dso_whitelist:  # [s390x]
     - $RPATH/ld64.so.1    # [s390x]
 
@@ -53,7 +52,6 @@ about:
     mechanism for serializing structured data,think XML, but smaller, faster, and simpler.
   dev_url: https://github.com/protocolbuffers/protobuf
   doc_url: https://developers.google.com/protocol-buffers/docs/tutorials
-  doc_source_url: https://github.com/protocolbuffers/protobuf/blob/master/README.md
 
 extra:
   recipe-maintainers:
