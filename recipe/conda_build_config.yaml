@@ -14,3 +14,7 @@ cxx_compiler:  # [win]
 vc:                          # [win]
   - 16                       # [win]
 
+c_compiler_version:          # [osx]
+- '14'                       # [osx]
+cxx_compiler_version:        # [osx]
+- '14'                       # [osx]
