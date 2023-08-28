@@ -1,4 +1,4 @@
-{% set version = "3.20.3" %}
+{% set version = "4.23.4" %}
 
 package:
   name: protobuf
@@ -6,10 +6,9 @@ package:
 
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
-  sha256: 9c0fd39c7a08dff543c643f0f4baf081988129a411b977a07c46221793605638
-  patches:  # [py==311]
-    # see https://github.com/protocolbuffers/protobuf/pull/10403
-    - patches/0001-fix-build-with-python-311.patch  # [py==311]
+  sha256: 5f3cd52d6e5062071d99da57a96ea87e39bc020d6d25748001d919c474a4d8ed
+  patches:
+    - patches/0004-use-C-17-everywhere.patch
 
 build:
   number: 0
@@ -20,16 +19,15 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - patch     # [(not win) and (py==311)]
-    - m2-patch  # [win and (py==311)]
+    - patch     # [(not win)]
+    - m2-patch  # [win]
   host:
     - python
     - pip
     - libprotobuf {{ version }}
   run:
     - python
-    - libprotobuf {{ version }}
-
+ 
 test:
   requires:
     - pip
@@ -46,7 +44,7 @@ test:
     - google.protobuf.compiler
 
 about:
-  home: https://developers.google.com/protocol-buffers/
+  home: https://protobuf.dev/ 
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
@@ -55,7 +53,7 @@ about:
     Protocol buffers are Google's language-neutral, platform-neutral, extensible
     mechanism for serializing structured data,think XML, but smaller, faster, and simpler.
   dev_url: https://github.com/protocolbuffers/protobuf
-  doc_url: https://developers.google.com/protocol-buffers/docs/tutorials
+  doc_url: https://protobuf.dev/  
 
 extra:
   recipe-maintainers:
