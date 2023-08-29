@@ -19,11 +19,13 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - patch     # [(not win)]
+    - patch     # [not win]
     - m2-patch  # [win]
   host:
     - python
-    - pip
+    - pip <23.1
+    - setuptools
+    - wheel
     - libprotobuf {{ version }}
   run:
     - python

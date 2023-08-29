@@ -4,5 +4,5 @@ if errorlevel 1 exit 1
 cd python
 if errorlevel 1 exit 1
 
-"%PYTHON%" setup.py install --single-version-externally-managed --record record.txt
+"%PYTHON%" -m pip install . -vv --install-option="--cpp_implementation" --no-deps --no-build-isolation
 if errorlevel 1 exit 1
