@@ -4,5 +4,5 @@ if errorlevel 1 exit 1
 cd python
 if errorlevel 1 exit 1
 
-"%PYTHON%" -m pip install . -vv --install-option="--cpp_implementation" --no-deps --no-build-isolation
+"%PYTHON%" -m pip install . -vv --install-option="--cpp_implementation" --no-deps --no-build-isolation --use-pep517
 if errorlevel 1 exit 1
