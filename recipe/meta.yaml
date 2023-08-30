@@ -26,7 +26,7 @@ requirements:
     - pip
     - setuptools
     - wheel
-    - libprotobuf  # pin handled through libprotobuf's run_exports
+    - libprotobuf {{ version }}
   run:
     - python
  
