@@ -29,6 +29,7 @@ requirements:
     - libprotobuf {{ version }}
   run:
     - python
+    - libprotobuf  # pin handled through libprotobuf's run_exports
  
 test:
   requires:
