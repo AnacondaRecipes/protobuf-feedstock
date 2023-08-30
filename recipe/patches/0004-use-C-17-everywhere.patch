@@ -2,6 +2,7 @@ From 025938fdbfa0ed950afedd9d773e1f6b499950bd Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 18 May 2023 17:14:37 +1100
 Subject: [PATCH 4/5] use C++17 everywhere
+URL: https://github.com/conda-forge/protobuf-feedstock/blob/main/recipe/patches/0004-use-C-17-everywhere.patch
 
 ---
  python/setup.py | 4 +++-
