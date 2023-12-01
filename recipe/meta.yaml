@@ -7,9 +7,9 @@ package:
 source:
   url: https://github.com/protocolbuffers/protobuf/archive/v{{ version }}/protobuf-v{{ version }}.tar.gz
   sha256: 9c0fd39c7a08dff543c643f0f4baf081988129a411b977a07c46221793605638
-  patches:  # [py==311]
+  patches:  # [py==311 or py==312]
     # see https://github.com/protocolbuffers/protobuf/pull/10403
-    - patches/0001-fix-build-with-python-311.patch  # [py==311]
+    - patches/0001-fix-build-with-python-311.patch  # [py==311 or py==312]
 
 build:
   number: 0
@@ -20,8 +20,8 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - patch     # [(not win) and (py==311)]
-    - m2-patch  # [win and (py==311)]
+    - patch     # [(not win) and (py==311 or py==312)]
+    - m2-patch  # [win and (py==311 or py==312)]
   host:
     - python
     - pip
