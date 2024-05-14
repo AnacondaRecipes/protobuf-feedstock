@@ -51,6 +51,7 @@ requirements:
     # bounds through run_exports
     - libabseil
     - libprotobuf
+    - __osx >={{ MACOSX_DEPLOYMENT_TARGET }}  # [osx and x86_64]
 
 test:
   imports:
