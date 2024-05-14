@@ -28,7 +28,7 @@ build:
     - export PROTOC=$BUILD_PREFIX/bin/protoc  # [unix and (build_platform != target_platform)]
     - set PROTOC=%LIBRARY_BIN%\protoc         # [win]
     - python setup.py bdist_wheel --cpp_implementation
-    - {{ PYTHON }} -m pip install -f dist protobuf=={{ major ~ "." ~ version }}
+    - {{ PYTHON }} -m pip install --no-deps --no-build-isolation -f dist protobuf=={{ major ~ "." ~ version }}
 
 requirements:
   build:
@@ -37,10 +37,13 @@ requirements:
     - libprotobuf {{ lib_major ~ "." ~ version }}  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - patch # [unix]
+    - m2-patch # [win]
   host:
     - python
     - pip
     - setuptools
+    - wheel
     - libabseil 20240116.2
     - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
@@ -59,7 +62,10 @@ test:
     - google.protobuf.pyext._message
     - google.protobuf.util
     - google.protobuf.compiler
+  requires:
+    - pip
   commands:
+    - pip check
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'cpp'"     # [python_impl != "pypy"]
     - python -c "from google.protobuf.internal import api_implementation; assert api_implementation.Type() == 'python'"  # [python_impl == "pypy"]
 
