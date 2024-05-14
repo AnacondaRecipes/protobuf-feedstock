@@ -41,11 +41,13 @@ requirements:
     - python
     - pip
     - setuptools
-    - libabseil
+    - libabseil 20240116.2
     - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
     - python
-    - setuptools
+    # bounds through run_exports
+    - libabseil
+    - libprotobuf
 
 test:
   imports:
