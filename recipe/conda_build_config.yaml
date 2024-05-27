@@ -1,0 +1,16 @@
+# https://github.com/protocolbuffers/protobuf/blob/v25.3/Protobuf-C%2B%2B.podspec#L36
+# also abseil now only support MacOS >=10.13, see
+# https://github.com/abseil/abseil-cpp#support and
+# https://github.com/abseil/abseil-cpp/issues/1513
+# protobuf requires 10.15
+MACOSX_SDK_VERSION:        # [osx and x86_64]
+  - "10.15"                # [osx and x86_64]
+MACOSX_DEPLOYMENT_TARGET:  # [osx and x86_64]
+  - "10.15"                # [osx and x86_64]
+CONDA_BUILD_SYSROOT:       # [osx and x86_64]
+  - /opt/MacOSX10.15.sdk   # [osx and x86_64]
+
+c_compiler:                # [win]
+  - vs2019                 # [win]
+cxx_compiler:              # [win]
+  - vs2019                 # [win]
