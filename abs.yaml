@@ -1,4 +1,0 @@
-channels:
-  - https://staging.continuum.io/prefect/fs/gtest-feedstock/pr6/a70f57d
-  - https://staging.continuum.io/prefect/fs/abseil-cpp-feedstock/pr9/b11d9fd
-  - https://staging.continuum.io/prefect/fs/libprotobuf-feedstock/pr24/2d7624f
