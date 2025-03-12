@@ -51,7 +51,7 @@ requirements:
     - pip
     - setuptools
     - libabseil 20250127.0  # [unix]
-    - zlib {{ zliib }}      # [unix]
+    - zlib {{ zlib }}       # [unix]
     # - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
     - python
