@@ -1,6 +1,8 @@
 build_env_vars:
   ANACONDA_ROCKET_ENABLE_PY313 : yes
 
+aggregate_check: false
+
 upload_without_merge: True
 channels:
   - libprotobuf-5.29.3
