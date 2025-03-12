@@ -1,0 +1,23 @@
+From 3a815f71590ab7772c6f242ff82d7dccc29ebd1f Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sat, 29 Jun 2024 09:50:18 +1100
+Subject: [PATCH 3/9] don't link statically on windows
+
+---
+ python/dist/setup.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/python/dist/setup.py b/python/dist/setup.py
+index 0868deba4..29184f065 100755
+--- a/python/dist/setup.py
++++ b/python/dist/setup.py
+@@ -34,9 +34,6 @@ def GetVersion():
+ current_dir = os.path.dirname(os.path.abspath(__file__))
+ extra_link_args = ["-Wl,--version-script=python/version_script.lds"]
+ 
+-if sys.platform.startswith('win'):
+-  extra_link_args = ['-static']
+-
+ setup(
+     name='protobuf',
+     version=GetVersion(),
