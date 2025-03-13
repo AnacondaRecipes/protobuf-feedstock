@@ -55,11 +55,11 @@ requirements:
     - setuptools
     - libabseil 20250127.0  # [unix]
     - zlib {{ zlib }}       # [unix]
-    # - libprotobuf {{ lib_major ~ "." ~ version }}
+    - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
     - python
-  run_constrained:
-    - libprotobuf {{ lib_major ~ "." ~ version }}
+  # run_constrained:
+  #   - libprotobuf {{ lib_major ~ "." ~ version }}
 
 test:
   requires:
