@@ -25,9 +25,12 @@ source:
       - patches/0008-Add-osx-64-and-linux-ppc64le-as-supported-wheel-tags.patch
       # TF_SYSTEM_LIBS (or rather: abseil_dll setup) not compatible with windows
       - patches/0009-unvendor-abseil-zlib.patch                                     # [not win]
+      # crate_index/cargo-bazel needs GLIBC_2.18
+      - patches/0010-dont-build-rust.patch
 
 build:
   number: 0
+  skip: true  # [linux and s390x]
 
 requirements:
   build:
