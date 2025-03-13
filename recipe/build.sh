@@ -19,6 +19,8 @@ if [[ "$build_platform" != "$target_platform" ]]; then
     export PROTOC=$BUILD_PREFIX/bin/protoc
 fi
 
+export PYTHON_BIN_PATH=$PREFIX/bin/python
+
 rm -rf $SRC_DIR/third_party/abseil-cpp
 cp -R $RECIPE_DIR/tf_third_party/* $SRC_DIR/third_party/
 # reuses infrastructure from tensorflow; in contrast to tensorflow feedstock,
