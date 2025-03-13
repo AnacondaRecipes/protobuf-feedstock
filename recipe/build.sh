@@ -35,6 +35,7 @@ bazel build \
     ${EXTRA_BAZEL_ARGS:-} \
     --cpu=${TARGET_CPU} \
     --local_cpu_resources=${CPU_COUNT} \
+    --spawn_strategy=standalone \
     //python/dist:binary_wheel \
     --define=use_fast_cpp_protos=true
 
