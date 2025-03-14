@@ -27,7 +27,6 @@ source:
       - patches/0009-unvendor-abseil-zlib.patch                                     # [not win]
       # crate_index/cargo-bazel needs GLIBC_2.18
       - patches/0010-dont-build-rust.patch
-      - patches/0011-find-correct-python.patch
 
 build:
   number: 0

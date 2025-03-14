@@ -27,6 +27,9 @@ cp -R $RECIPE_DIR/tf_third_party/* $SRC_DIR/third_party/
 # this must use commas to separate libs, otherwise bazel breaks inscrutably
 export TF_SYSTEM_LIBS="com_google_absl,zlib"
 
+# Prevent build_env python from being picked up. 
+export PATH="$PREFIX/bin:${PATH}"
+
 bazel build \
     --action_env TF_SYSTEM_LIBS=$TF_SYSTEM_LIBS \
     --platforms=//bazel_toolchain:target_platform \
