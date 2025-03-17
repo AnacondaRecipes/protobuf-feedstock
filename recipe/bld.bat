@@ -23,10 +23,21 @@ if defined CONDA_BLD_PATH (
 ) else (
   set OUTPUT_BASE=
 )
+set BAZEL_LLVM=%BUILD_PREFIX:\=/%/Library/
+set CLANG_COMPILER_PATH=%Bazel_LLVM%/bin/clang.exe
+set BAZEL_VS="%VSINSTALLDIR%"
+set BAZEL_VC="%VSINSTALLDIR%/VC"
 
 bazel %OUTPUT_BASE% build ^
     --linkopt "/LIBPATH:%PREFIX%\libs" ^
     --action_env PYTHON_BIN_PATH=%PYTHON% ^
+    --cxxopt=/std:c++17 ^
+    --host_cxxopt=/std:c++17 ^
+    --compiler=clang-cl ^
+    --verbose_failures ^
+    :: _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH can be removed when we have clang>=11.0
+    --copt=-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH ^
+    --host_copt=-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH ^
     //python/dist:binary_wheel ^
     --define=use_fast_cpp_protos=true
 if %ERRORLEVEL% neq 0 exit 1
