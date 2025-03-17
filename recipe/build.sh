@@ -44,7 +44,7 @@ bazel build \
     //python/dist:binary_wheel \
     --define=use_fast_cpp_protos=true
 
-$PYTHON -m pip install ../bazel-bin/python/dist/protobuf-${PKG_VERSION}-*.whl
+$PYTHON -m pip install --no-deps --no-build-isolation ../bazel-bin/python/dist/protobuf-${PKG_VERSION}-*.whl
 
 # Remove chance of trying to install multiple variants. 
 rm ../bazel-bin/python/dist/protobuf-${PKG_VERSION}-*.whl

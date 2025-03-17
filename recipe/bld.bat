@@ -42,7 +42,7 @@ bazel %OUTPUT_BASE% build ^
     --define=use_fast_cpp_protos=true
 if %ERRORLEVEL% neq 0 exit 1
 
-%PYTHON% -m pip install ..\bazel-bin\python\dist\protobuf-%PKG_VERSION%-cp%PY_VER_NO_DOT%-abi3-win_amd64.whl
+%PYTHON% -m pip install --no-deps --no-build-isolation ..\bazel-bin\python\dist\protobuf-%PKG_VERSION%-cp%PY_VER_NO_DOT%-abi3-win_amd64.whl
 if %ERRORLEVEL% neq 0 exit 1
 
 bazel clean --expunge
