@@ -1,0 +1,71 @@
+diff --git a/WORKSPACE b/WORKSPACE
+index f752fc5..4195dc5 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -218,36 +218,36 @@ load("@fuzzing_py_deps//:requirements.bzl", fuzzing_py_deps_install_deps = "inst
+ 
+ fuzzing_py_deps_install_deps()
+ 
+-http_archive(
+-    name = "rules_rust",
+-    integrity = "sha256-F8U7+AC5MvMtPKGdLLnorVM84cDXKfDRgwd7/dq3rUY=",
+-    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.46.0/rules_rust-v0.46.0.tar.gz"],
+-)
+-
+-load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
+-
+-rules_rust_dependencies()
+-
+-rust_register_toolchains(edition = "2021")
+-load("@rules_rust//crate_universe:defs.bzl", "crate", "crates_repository")
+-# to repin, invoke `CARGO_BAZEL_REPIN=1 bazel sync --only=crate_index`
+-crates_repository(
+-    name = "crate_index",
+-    cargo_lockfile = "//:Cargo.lock",
+-    lockfile = "//:Cargo.bazel.lock",
+-    packages = {
+-        "googletest": crate.spec(
+-            git = "https://github.com/google/googletest-rust",
+-            rev = "b407f3b5774defb8917d714bfb7af485e117d621",
+-        ),
+-        "paste": crate.spec(
+-          version = ">=1",
+-        ),
+-    },
+-)
+-
+-load("@crate_index//:defs.bzl", "crate_repositories")
+-crate_repositories()
++# http_archive(
++#     name = "rules_rust",
++#     integrity = "sha256-F8U7+AC5MvMtPKGdLLnorVM84cDXKfDRgwd7/dq3rUY=",
++#     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.46.0/rules_rust-v0.46.0.tar.gz"],
++# )
++
++# load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
++
++# rules_rust_dependencies()
++
++# rust_register_toolchains(edition = "2021")
++# load("@rules_rust//crate_universe:defs.bzl", "crate", "crates_repository")
++# # to repin, invoke `CARGO_BAZEL_REPIN=1 bazel sync --only=crate_index`
++# crates_repository(
++#     name = "crate_index",
++#     cargo_lockfile = "//:Cargo.lock",
++#     lockfile = "//:Cargo.bazel.lock",
++#     packages = {
++#         "googletest": crate.spec(
++#             git = "https://github.com/google/googletest-rust",
++#             rev = "b407f3b5774defb8917d714bfb7af485e117d621",
++#         ),
++#         "paste": crate.spec(
++#           version = ">=1",
++#         ),
++#     },
++# )
++
++# load("@crate_index//:defs.bzl", "crate_repositories")
++# crate_repositories()
+ 
+ # For testing runtime against old gencode from a previous major version.
+ http_archive(
