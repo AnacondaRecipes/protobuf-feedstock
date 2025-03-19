@@ -28,6 +28,7 @@ cp -R $RECIPE_DIR/tf_third_party/* $SRC_DIR/third_party/
 export TF_SYSTEM_LIBS="com_google_absl,zlib"
 
 # Prevent build_env python from being picked up. 
+# $BUILD_PREFIX/bin is listed first in PATH, and bazel finds that python first.
 export PATH="$PREFIX/bin:${PATH}"
 
 bazel build \
