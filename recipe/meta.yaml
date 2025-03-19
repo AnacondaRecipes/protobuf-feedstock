@@ -45,7 +45,7 @@ requirements:
     - sed                   # [unix]
     - posix                 # [not unix]
     - m2-sed                # [not unix]
-    - clang >= 11  # [win]
+    - clang >=11   # [win]
     - llvmdev      # [win]
     - lld          # [win]
     - {{ compiler('c') }}
