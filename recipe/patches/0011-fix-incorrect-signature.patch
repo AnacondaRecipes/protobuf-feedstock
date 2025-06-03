@@ -1,0 +1,43 @@
+From 444f9a1ebe9b7a4e1a9692950a7a06912f416cbd Mon Sep 17 00:00:00 2001
+From: Eric Lundby <Eric.Lundby@gmail.com>
+Date: Tue, 3 Jun 2025 11:20:44 -0600
+Subject: [PATCH 1/1] fix-incorrect-signature
+
+---
+ src/google/protobuf/metadata_lite.h | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/src/google/protobuf/metadata_lite.h b/src/google/protobuf/metadata_lite.h
+index d2299e67e..58601ec2f 100644
+--- a/src/google/protobuf/metadata_lite.h
++++ b/src/google/protobuf/metadata_lite.h
+@@ -155,6 +155,11 @@ class PROTOBUF_EXPORT InternalMetadata {
+   template <typename T>
+   struct Container : public ContainerBase {
+     T unknown_fields;
++    // Add constructors for protobuf 5 compatibility
++    Container() = default;
++    explicit Container(Arena* input_arena) {
++      arena = input_arena;
++    }
+   };
+ 
+   template <typename T>
+@@ -168,7 +173,13 @@ class PROTOBUF_EXPORT InternalMetadata {
+   template <typename T>
+   PROTOBUF_NOINLINE T* mutable_unknown_fields_slow() {
+     Arena* my_arena = arena();
+-    Container<T>* container = Arena::Create<Container<T>>(my_arena);
++    Container<T>* container;
++    // Handle different Container specializations
++    if constexpr (std::is_same_v<T, google::protobuf::UnknownFieldSet>) {
++      container = new Container<T>(my_arena);
++    } else {
++      container = Arena::Create<Container<T>>(my_arena);
++    }
+     // Two-step assignment works around a bug in clang's static analyzer:
+     // https://bugs.llvm.org/show_bug.cgi?id=34198.
+     ptr_ = reinterpret_cast<intptr_t>(container);
+-- 
+2.39.5 (Apple Git-154)
+
