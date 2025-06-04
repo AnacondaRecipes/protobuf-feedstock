@@ -38,6 +38,19 @@ index d2299e67e..58601ec2f 100644
      // Two-step assignment works around a bug in clang's static analyzer:
      // https://bugs.llvm.org/show_bug.cgi?id=34198.
      ptr_ = reinterpret_cast<intptr_t>(container);
--- 
-2.39.5 (Apple Git-154)
+
+diff --git a/src/google/protobuf/unknown_field_set.h b/src/google/protobuf/unknown_field_set.h
+index 1234567..abcdefg 100644
+--- a/src/google/protobuf/unknown_field_set.h
++++ b/src/google/protobuf/unknown_field_set.h
+@@ -440,6 +440,9 @@ struct InternalMetadata::Container<UnknownFieldSet>
+   explicit Container(Arena* input_arena)
+       : unknown_fields(InternalVisibility{}, input_arena) {}
+
++  // Add default constructor for protobuf 5 compatibility
++  Container() : Container(nullptr) {}
++
+   using InternalArenaConstructable_ = void;
+   using DestructorSkippable_ = void;
+ };
 
