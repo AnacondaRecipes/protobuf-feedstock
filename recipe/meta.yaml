@@ -29,8 +29,7 @@ source:
       - patches/0010-dont-build-rust.patch
 
 build:
-  number: 0
-  skip: true  # [linux and s390x]
+  number: 1
 
 requirements:
   build:
