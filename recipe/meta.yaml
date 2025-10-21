@@ -29,8 +29,7 @@ source:
       - patches/0010-dont-build-rust.patch
 
 build:
-  number: 0
-  skip: true  # [linux and s390x]
+  number: 1
 
 requirements:
   build:
@@ -52,11 +51,12 @@ requirements:
     - {{ compiler('cxx') }}
     - patch # [unix]
     - m2-patch # [win]
+    - {{ stdlib('c') }}
   host:
     - python
     - pip
     - setuptools
-    - libabseil 20250127.0  # [unix]
+    - libabseil 20250127.1  # [unix]
     - zlib {{ zlib }}       # [unix]
     # - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
