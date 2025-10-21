@@ -51,6 +51,7 @@ requirements:
     - {{ compiler('cxx') }}
     - patch # [unix]
     - m2-patch # [win]
+    - {{ stdlib('c') }}
   host:
     - python
     - pip
