@@ -10,10 +10,10 @@ Subject: [PATCH 7/9] Hacky windows workarounds
  3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/python/dist/system_python.bzl b/python/dist/system_python.bzl
-index 9367dd00f..e89719405 100644
+index 2a1c56483..ec6e34ad5 100644
 --- a/python/dist/system_python.bzl
 +++ b/python/dist/system_python.bzl
-@@ -156,12 +156,12 @@ def register_system_python():
+@@ -158,12 +158,12 @@ def register_system_python():
  
  def _get_python_version(repository_ctx):
      py_program = "import sys; print(str(sys.version_info.major) + '.' + str(sys.version_info.minor) + '.' + str(sys.version_info.micro))"
@@ -28,7 +28,7 @@ index 9367dd00f..e89719405 100644
      if result.return_code != 0:
          return None
      return result.stdout
-@@ -216,7 +216,7 @@ def _populate_empty_package(ctx):
+@@ -218,7 +218,7 @@ def _populate_empty_package(ctx):
  
  def _system_python_impl(repository_ctx):
      path = _get_python_path(repository_ctx)
@@ -38,10 +38,10 @@ index 9367dd00f..e89719405 100644
  
      if path and python_version[0] == "3":
 diff --git a/python/message.c b/python/message.c
-index 08ecb9f4c..1aa2fbea3 100644
+index 26d6d7ce2..2179038ae 100644
 --- a/python/message.c
 +++ b/python/message.c
-@@ -1018,7 +1018,7 @@ int PyUpb_Message_GetVersion(PyObject* _self) {
+@@ -1024,7 +1024,7 @@ int PyUpb_Message_GetVersion(PyObject* _self) {
   * Attribute lookup must find both message fields and base class methods like
   * msg.SerializeToString().
   */
@@ -51,14 +51,14 @@ index 08ecb9f4c..1aa2fbea3 100644
    PyUpb_Message* self = (void*)_self;
  
 diff --git a/python/protobuf.c b/python/protobuf.c
-index 498b13b43..0b2f5fed0 100644
+index a86fcaaf8..e8c5e1706 100644
 --- a/python/protobuf.c
 +++ b/python/protobuf.c
-@@ -399,7 +399,7 @@ bool PyUpb_IndexToRange(PyObject* index, Py_ssize_t size, Py_ssize_t* i,
+@@ -407,7 +407,7 @@ bool PyUpb_IndexToRange(PyObject* index, Py_ssize_t size, Py_ssize_t* i,
  // Module Entry Point
  // -----------------------------------------------------------------------------
  
--__attribute__((visibility("default"))) PyMODINIT_FUNC PyInit__message(void) {
+-PyMODINIT_FUNC PyInit__message(void) {
 +__declspec(dllexport) PyMODINIT_FUNC PyInit__message(void) {
    PyObject* m = PyModule_Create(&module_def);
    if (!m) return NULL;
