@@ -22,8 +22,6 @@ source:
       - patches/0005-Support-more-architectures-for-Python-bindings.patch
       - patches/0006-Compatible-windows-changes.patch
       - patches/0007-Hacky-windows-workarounds.patch                                # [win]
-      # TF_SYSTEM_LIBS (or rather: abseil_dll setup) not compatible with windows
-      - patches/0009-unvendor-abseil-zlib.patch                                     # [not win]
 
 build:
   number: 0
@@ -51,8 +49,9 @@ requirements:
     - python
     - pip
     - setuptools
-    - libabseil {{ libabseil }}  # [unix]
-    - zlib {{ zlib }}       # [unix]
+    # UPB implementation doesn't need libabseil or zlib
+    # - libabseil {{ libabseil }}  # [unix]
+    # - zlib {{ zlib }}       # [unix]
     # - libprotobuf {{ lib_major ~ "." ~ version }}
   run:
     - python
