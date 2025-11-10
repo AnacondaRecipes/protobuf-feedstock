@@ -6,3 +6,14 @@ c_compiler:     # [win]
   - vs2022      # [win]
 cxx_compiler:   # [win]
   - vs2022      # [win]
+
+
+c_compiler:                # [win]
+  - clang                  # [win]
+cxx_compiler:              # [win]
+  - clang                  # [win]
+
+c_compiler_version:        # [win]
+  - 20                     # [win]
+cxx_compiler_version:      # [win]
+  - 20                     # [win]

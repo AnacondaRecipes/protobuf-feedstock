@@ -39,9 +39,6 @@ requirements:
     - sed                   # [unix]
     - msys2-posix           # [not unix]
     - msys2-sed             # [not unix]
-    - clang >=11   # [win]
-    - llvmdev      # [win]
-    - lld          # [win]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
