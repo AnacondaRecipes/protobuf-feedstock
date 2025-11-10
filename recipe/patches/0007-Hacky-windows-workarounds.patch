@@ -63,3 +63,26 @@ index a86fcaaf8..e8c5e1706 100644
    PyObject* m = PyModule_Create(&module_def);
    if (!m) return NULL;
  
+diff --git a/MODULE.bazel b/MODULE.bazel
+index 16d85119b..b8f663ba2 100644
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -161,7 +161,7 @@ local_runtime_toolchains_repo = use_repo_rule(
+ local_runtime_repo(
+     name = "local_python3",
+     dev_dependency = True,
+-    interpreter_path = "python3",
++    interpreter_path = "python",
+     on_failure = "fail",
+ )
+ 
+diff --git a/python/dist/setup_wrapper.sh b/python/dist/setup_wrapper.sh
+index 99f383b5b..905fce1cd 100755
+--- a/python/dist/setup_wrapper.sh
++++ b/python/dist/setup_wrapper.sh
+@@ -13,4 +13,4 @@ fi
+ 
+ # Run setup.py with the arguments passed to this script
+ cd protobuf/
+-python3 setup.py "$@"
++${PYTHON} setup.py "$@"
