@@ -1,7 +1,7 @@
 build_env_vars:
   ANACONDA_ROCKET_ENABLE_PY314 : yes
 
-staging_channel_upload_target: protobuf-6.33.0-build-0
+staging_channel_upload_target: protobuf-6.33.0-build-3
 
 channels:
-  - https://staging.continuum.io/pbp/protobuf-6.33.0-build-0
+  - https://staging.continuum.io/pbp/protobuf-6.33.0-build-3
