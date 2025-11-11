@@ -24,7 +24,7 @@ if defined CONDA_BLD_PATH (
   set OUTPUT_BASE=
 )
 set BAZEL_LLVM=%BUILD_PREFIX:\=/%/Library/
-set CLANG_COMPILER_PATH=%Bazel_LLVM%/bin/clang.exe
+set CLANG_COMPILER_PATH=%BAZEL_LLVM%/bin/clang.exe
 set BAZEL_VS="%VSINSTALLDIR%"
 set BAZEL_VC="%VSINSTALLDIR%/VC"
 
@@ -32,6 +32,8 @@ bazel %OUTPUT_BASE% build ^
     --linkopt "/LIBPATH:%PREFIX%\libs" ^
     --action_env PYTHON_BIN_PATH=%PYTHON% ^
     --compiler=clang-cl ^
+    --cxxopt=/std:c++17 ^
+    --host_cxxopt=/std:c++17 ^
     --verbose_failures ^
     //python/dist:binary_wheel
 if %ERRORLEVEL% neq 0 exit 1
