@@ -17,10 +17,10 @@ PiperOrigin-RevId: 645445353
  4 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/python/BUILD.bazel b/python/BUILD.bazel
-index 6131ab92c..956e5341e 100644
+index e8c94aecf..90bfc3dc4 100644
 --- a/python/BUILD.bazel
 +++ b/python/BUILD.bazel
-@@ -164,6 +164,8 @@ filegroup(
+@@ -136,6 +136,8 @@ filegroup(
      ],
  )
  
@@ -30,10 +30,10 @@ index 6131ab92c..956e5341e 100644
      name = "_message",
      srcs = [":message_srcs"],
 diff --git a/python/dist/BUILD.bazel b/python/dist/BUILD.bazel
-index 764fc7054..ee07c735e 100644
+index c3da3d096..07faa16b9 100644
 --- a/python/dist/BUILD.bazel
 +++ b/python/dist/BUILD.bazel
-@@ -239,6 +239,7 @@ pkg_files(
+@@ -262,6 +262,7 @@ pkg_files(
      srcs = [
          "//:LICENSE",
          "//python:message_srcs",
@@ -52,7 +52,7 @@ index 1b619364e..f243c1018 100644
 +global-include *.inc
 +include python/version_script.lds
 diff --git a/python/dist/setup.py b/python/dist/setup.py
-index 3ace6a881..0868deba4 100755
+index e534a9a4c..734a85e25 100755
 --- a/python/dist/setup.py
 +++ b/python/dist/setup.py
 @@ -32,7 +32,7 @@ def GetVersion():

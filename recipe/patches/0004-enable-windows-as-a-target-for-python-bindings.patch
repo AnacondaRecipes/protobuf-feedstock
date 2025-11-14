@@ -9,10 +9,10 @@ Subject: [PATCH 4/9] enable windows as a target for python bindings
  2 files changed, 3 deletions(-)
 
 diff --git a/python/BUILD.bazel b/python/BUILD.bazel
-index 0d2254394..537ac6992 100644
+index 750c89a68..a27012e28 100644
 --- a/python/BUILD.bazel
 +++ b/python/BUILD.bazel
-@@ -131,8 +131,6 @@ selects.config_setting_group(
+@@ -103,8 +103,6 @@ selects.config_setting_group(
  )
  
  _message_target_compatible_with = {
@@ -22,14 +22,14 @@ index 0d2254394..537ac6992 100644
  }
  
 diff --git a/python/dist/BUILD.bazel b/python/dist/BUILD.bazel
-index ee07c735e..b6ddf9231 100644
+index 07faa16b9..2fe17d7de 100644
 --- a/python/dist/BUILD.bazel
 +++ b/python/dist/BUILD.bazel
-@@ -352,7 +352,6 @@ py_wheel(
-         "src/",
-     ],
+@@ -297,7 +297,6 @@ pkg_tar(
+     package_file_name = "protobuf.tar.gz",
+     strip_prefix = ".",
      target_compatible_with = select({
 -        "@system_python//:none": ["@platforms//:incompatible"],
          "//conditions:default": [],
      }),
-     version = PROTOBUF_PYTHON_VERSION,
+ )
