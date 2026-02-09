@@ -1,5 +1,5 @@
 # keep this without major version to let the bot pick it up
-{% set version = "33.0" %}
+{% set version = "33.5" %}
 # protobuf doesn't add the major version in the tag, it's defined per language in
 # https://github.com/protocolbuffers/protobuf/blob/main/version.json
 {% set major = "6" %}
@@ -12,7 +12,7 @@ package:
 
 source:
   - url: https://github.com/protocolbuffers/protobuf/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: b6b03fbaa3a90f3d4f2a3fa4ecc41d7cd0326f92fcc920a7843f12206c8d52cd
+    sha256: 440848dffa209beb8a04e41cc352762e44f8e91342b2a43aab6af9b30713c2f6
     patches:
       # backport https://github.com/protocolbuffers/protobuf/pull/17207 to avoid upb leakage
       - patches/0001-Make-our-Python-source-wheel-use-the-version-script-.patch
@@ -28,11 +28,6 @@ build:
 
 requirements:
   build:
-    - python                                # [build_platform != target_platform or win]
-    - cross-python_{{ target_platform }}    # [build_platform != target_platform]
-    - libabseil                             # [build_platform != target_platform]
-    - zlib                                  # [build_platform != target_platform]
-    # - libprotobuf {{ lib_major ~ "." ~ version }}  # [build_platform != target_platform]
     - bazel 7
     - bazel-toolchain       # [unix]
     - openjdk               # [unix]
@@ -73,7 +68,7 @@ test:
     - pip check
 
 about:
-  home: https://developers.google.com/protocol-buffers/
+  home: https://developers.google.com/protocol-buffers
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
