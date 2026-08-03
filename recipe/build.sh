@@ -2,8 +2,10 @@
 set -ex
 
 # Workaround missing leading whitespace for mcpu stripping in bazel-toolchain
-export CFLAGS=" ${CXXFLAGS}"
+export CFLAGS=" ${CFLAGS}"
 export CXXFLAGS=" ${CXXFLAGS}"
+# Re-add Python include path lost by overwriting CFLAGS above
+export CFLAGS="${CFLAGS} -I${PREFIX}/include/python${PY_VER}"
 
 source gen-bazel-toolchain
 
@@ -21,9 +23,18 @@ fi
 
 export PYTHON_BIN_PATH=$PREFIX/bin/python
 
-# Prevent build_env python from being picked up. 
+# Prevent build_env python from being picked up.
 # $BUILD_PREFIX/bin is listed first in PATH, and bazel finds that python first.
 export PATH="$PREFIX/bin:${PATH}"
+
+# Hacky workaround to fix some dependency issues with bazel
+for f in dist/BUILD.bazel dist/dist.bzl; do
+  sed -i '/@system_python\/\/:version\.bzl/d' $f
+  sed -i "s|SYSTEM_PYTHON_VERSION|\"${PY_VER//./}\"|g" $f
+done
+# protobuf misuses `SUPPORTED_PYTHON_VERSIONS[-1]` to mean "default python", see
+# https://github.com/protocolbuffers/protobuf/issues/22313
+sed -i "s|SUPPORTED_PYTHON_VERSIONS\[-1\]|\"${PY_VER}\"|g" ../MODULE.bazel
 
 bazel build \
     --platforms=//bazel_toolchain:target_platform \
@@ -39,5 +50,5 @@ bazel build \
 
 $PYTHON -m pip install --no-deps --no-build-isolation ../bazel-bin/python/dist/protobuf-${PKG_VERSION}-*.whl
 
-# Remove chance of trying to install multiple variants. 
+# Remove chance of trying to install multiple variants.
 rm ../bazel-bin/python/dist/protobuf-${PKG_VERSION}-*.whl
