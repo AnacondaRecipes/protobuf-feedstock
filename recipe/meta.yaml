@@ -24,6 +24,7 @@ source:
       - patches/0007-Add-osx-64-and-linux-ppc64le-as-supported-wheel-tags.patch
       - patches/0008-Add-ppc64le-to-python-dist-ABI-suffix-map.patch
       - patches/0009-dont-build-rust.patch
+      - patches/0010-pin-rules-cc-0.0.17.patch
 
 build:
   number: 0
