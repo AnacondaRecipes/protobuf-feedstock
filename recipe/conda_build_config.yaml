@@ -1,5 +1,5 @@
-libabseil: 20250814.1
-
+# protobuf has deprecated bazel+MSVC, see
+# https://github.com/conda-forge/libprotobuf-feedstock/issues/246
 c_compiler:                # [win]
   - clang                  # [win]
 cxx_compiler:              # [win]
