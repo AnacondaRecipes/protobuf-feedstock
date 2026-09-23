@@ -1,0 +1,37 @@
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -53,13 +53,15 @@ bazel_dep(name = "rules_ruby", version = "0.20.1", dev_dependency = True)
+ 
+ # Workaround for https://github.com/bazelbuild/bazel-central-registry/issues/4230
+ # rules_fuzzing 0.5.3 is not yet available in BCR.
+-bazel_dep(name = "rules_fuzzing", version = "0.5.3", dev_dependency = True)
+-archive_override(
+-    module_name = "rules_fuzzing",
+-    integrity = "sha256-CCdEIsQ4NBbfX5gpQ+QNWBQfdJwJAIu3gEQO7OaxE+Q=",
+-    strip_prefix = "rules_fuzzing-0.5.3",
+-    urls = ["https://github.com/bazelbuild/rules_fuzzing/archive/v0.5.3.tar.gz"],
+-)
++# Disabled for conda Python wheel builds: rules_fuzzing's pip hub requires
++# python 3.8-3.10 host toolchains that rules_python 1.6.0 no longer provides.
++# bazel_dep(name = "rules_fuzzing", version = "0.5.3", dev_dependency = True)
++# archive_override(
++#     module_name = "rules_fuzzing",
++#     integrity = "sha256-CCdEIsQ4NBbfX5gpQ+QNWBQfdJwJAIu3gEQO7OaxE+Q=",
++#     strip_prefix = "rules_fuzzing-0.5.3",
++#     urls = ["https://github.com/bazelbuild/rules_fuzzing/archive/v0.5.3.tar.gz"],
++# )
+ 
+ # Workaround for https://github.com/bazel-contrib/rules_ruby/issues/216
+ # Patch rules_ruby to disable automatic attempt to install bundler. When fixed,
+@@ -267,7 +269,10 @@ use_repo(cc_configure, "local_config_cc")
+ bazel_dep(name = "lua", version = "5.4.6", dev_dependency = True)
+ 
+ # For benchmarks
+-bazel_dep(name = "googleapis", version = "0.0.0-20240819-fe8ba054a", dev_dependency = True)
++# Disabled for conda Python wheel builds: googleapis pulls in grpc, whose
++# pip hubs require python 3.8-3.10 host toolchains that rules_python 1.6.0
++# no longer provides.
++# bazel_dep(name = "googleapis", version = "0.0.0-20240819-fe8ba054a", dev_dependency = True)
+ bazel_dep(name = "google_benchmark", version = "1.9.2", dev_dependency = True)
+ 
+ # For testing runtime against old gencode from a previous major version.

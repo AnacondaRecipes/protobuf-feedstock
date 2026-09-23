@@ -34,6 +34,17 @@ set CLANG_COMPILER_PATH=%BAZEL_LLVM%/bin/clang.exe
 set BAZEL_VS="%VSINSTALLDIR%"
 set BAZEL_VC="%VSINSTALLDIR%/VC"
 
+@rem The upstream .bazelrc hardcodes the x64_windows-clang-cl platform, which is
+@rem wrong when building natively for win-arm64. Select the Bazel platform and
+@rem toolchain that match the build architecture.  clang does not define
+@rem __SEH__ for aarch64-windows, so define it for upb's encode.c to omit the
+@rem in-function .p2align that crashes the AArch64 SEH backend
+@rem (see https://github.com/llvm/llvm-project/issues/47432).
+set "BAZEL_ARM64_FLAGS=--platforms=//build_defs:win-arm64 --host_platform=//build_defs:arm64_windows-clang-cl --extra_execution_platforms=//build_defs:arm64_windows-clang-cl --extra_toolchains=@local_config_cc//:cc-toolchain-arm64_windows-clang-cl --per_file_copt=.*upb/wire/encode\.c@-D__SEH__ --host_per_file_copt=.*upb/wire/encode\.c@-D__SEH__"
+set "BAZEL_ARCH_FLAGS="
+if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" set "BAZEL_ARCH_FLAGS=%BAZEL_ARM64_FLAGS%"
+if /I "%target_platform%"=="win-arm64" set "BAZEL_ARCH_FLAGS=%BAZEL_ARM64_FLAGS%"
+
 for %%f in ("dist\BUILD.bazel" "dist\dist.bzl") do (
   sed -i "/@system_python\/\/:version\.bzl/d" "%%~f"
   if %ERRORLEVEL% neq 0 exit 1
@@ -52,11 +63,18 @@ bazel %OUTPUT_BASE% build ^
     --compiler=clang-cl ^
     --cxxopt=/std:c++17 ^
     --host_cxxopt=/std:c++17 ^
-    --verbose_failures ^
+    --verbose_failures %BAZEL_ARCH_FLAGS% ^
     //python/dist:binary_wheel
 if %ERRORLEVEL% neq 0 exit 1
 
-%PYTHON% -m pip install --no-deps --no-build-isolation ..\bazel-bin\python\dist\protobuf-%PKG_VERSION%-cp%PY_VER_NO_DOT%-abi3-win_amd64.whl
+@rem The wheel platform tag depends on the target architecture (win_amd64 vs
+@rem win_arm64), so locate the built wheel instead of hardcoding its name.
+for %%w in ("..\bazel-bin\python\dist\protobuf-*.whl") do set "PROTOBUF_WHEEL=%%~fw"
+if not defined PROTOBUF_WHEEL (
+  echo Could not find the built protobuf wheel & exit 1
+)
+
+%PYTHON% -m pip install --no-deps --no-build-isolation "!PROTOBUF_WHEEL!"
 if %ERRORLEVEL% neq 0 exit 1
 
 bazel clean --expunge
