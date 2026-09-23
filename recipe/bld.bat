@@ -68,10 +68,19 @@ bazel %OUTPUT_BASE% build ^
 if %ERRORLEVEL% neq 0 exit 1
 
 @rem The wheel platform tag depends on the target architecture (win_amd64 vs
-@rem win_arm64), so locate the built wheel instead of hardcoding its name.
-for %%w in ("..\bazel-bin\python\dist\protobuf-*.whl") do set "PROTOBUF_WHEEL=%%~fw"
+@rem win_arm64), so keep the version/Python/ABI pin from before and leave only
+@rem the platform part of the file name generic.
+set "PROTOBUF_WHEEL="
+set "PROTOBUF_WHEEL_COUNT=0"
+for %%w in ("..\bazel-bin\python\dist\protobuf-%PKG_VERSION%-cp%PY_VER_NO_DOT%-abi3-*.whl") do (
+  set "PROTOBUF_WHEEL=%%~fw"
+  set /a PROTOBUF_WHEEL_COUNT+=1
+)
 if not defined PROTOBUF_WHEEL (
   echo Could not find the built protobuf wheel & exit 1
+)
+if not "!PROTOBUF_WHEEL_COUNT!"=="1" (
+  echo Found !PROTOBUF_WHEEL_COUNT! matching protobuf wheels, expected exactly one & exit 1
 )
 
 %PYTHON% -m pip install --no-deps --no-build-isolation "!PROTOBUF_WHEEL!"
